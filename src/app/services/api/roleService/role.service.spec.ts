@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RoleDataService } from './role-data.service';
+import { RoleService } from './role.service';
 
-describe('RoleDataService', () => {
-  let service: RoleDataService;
+describe('RoleService', () => {
+  let service: RoleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RoleDataService);
+    service = TestBed.inject(RoleService);
   });
 
   it('should be created', () => {

@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MenuDataService {
-  private dataUrl = `${environment.HOST_URL}menus/`;  // The URL to the backend endpoint  
+export class RoleService {
+  private dataUrl = `${environment.HOST_URL}roles/`;  // The URL to the backend endpoint  
   constructor(private http: HttpClient) { }        // Inject HttpClient to make HTTP requests 
   getData(): Observable<any[]> {
     return this.http.get<any[]>(this.dataUrl);    // Fetch data from the backend
