@@ -3,13 +3,21 @@ import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface RoleType {
+  RoleID: number;
+  Name: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class RoleService {
-  private dataUrl = `${environment.HOST_URL}roles/`;  // The URL to the backend endpoint  
-  constructor(private http: HttpClient) { }        // Inject HttpClient to make HTTP requests 
-  getData(): Observable<any[]> {
-    return this.http.get<any[]>(this.dataUrl);    // Fetch data from the backend
+  private dataUrl = `${environment.HOST_URL}roles/`;
+
+  constructor(private http: HttpClient) { }
+
+  getRoleItems(): Observable<RoleType[]> {
+    return this.http.get<RoleType[]>(this.dataUrl);
   }
 }

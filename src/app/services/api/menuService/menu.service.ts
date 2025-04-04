@@ -9,23 +9,32 @@ export interface MenuType {
   Name: string;
   Path?: string;
   Icon?: string;
+  Category?: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
-  private dataUrl = `${environment.HOST_URL}menus/`;  // The URL to the backend endpoint  
+  private apiUrl = `${environment.HOST_URL}menus/`;  // The URL to the backend endpoint  
   constructor(private http: HttpClient) { }        // Inject HttpClient to make HTTP requests 
   // getData(): Observable<any[]> {
   //   return this.http.get<any[]>(this.dataUrl);    // Fetch data from the backend
   // }
   getMenuItems(): Observable<MenuType[]> {
-    return this.http.get<MenuType[]>(this.dataUrl);
+    return this.http.get<MenuType[]>(this.apiUrl);
   }
 
   getMenuItem(id: string): Observable<MenuType> {
-    return this.http.get<MenuType>(`${this.dataUrl}/${id}`);
+    return this.http.get<MenuType>(`${this.apiUrl}/${id}`);
+  }
+
+  getMaxMenuId(): Observable<{ success: boolean, maxId: number }> {
+    return this.http.get<{ success: boolean, maxId: number }>(`${this.apiUrl}/max-id`);
+  }
+
+  createMenu(menuData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, menuData);
   }
 }
 

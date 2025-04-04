@@ -26,6 +26,8 @@
 .content-area {
   /* This will make the content area take remaining space */
   min-width: 0; /* Important for flexbox */
+  height: 100vh;
+  margin-left: 20rem;
 }
 
 /* When sidebar is collapsed */

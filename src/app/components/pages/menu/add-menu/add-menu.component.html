@@ -1,0 +1,145 @@
+<div class="container card shadow-sm p-4 mb-4 bg-body rounded">
+  <div class="card-header">
+    <h3>Add New Menu</h3>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-6">
+          <div class="input-container">
+            <label for="">Menu ID</label
+            ><input
+              class="form-control"
+              type="number"
+              formControlName="menuID"
+            />
+          </div>
+          <div class="input-container">
+            <label for="">Name</label
+            ><input class="form-control" type="text" formControlName="name" />
+            <div
+              *ngIf="
+                menuForm.get('name')?.hasError('required') &&
+                (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
+              "
+              class="error"
+            >
+              Please enter the Menu Name
+            </div>
+            <div
+              *ngIf="
+                menuForm.get('name')?.hasError('maxlength') &&
+                (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
+              "
+              class="error"
+            >
+              Name cannot be more than 30 characters.
+            </div>
+          </div>
+          <div class="input-container">
+            <label for="">Path</label
+            ><input class="form-control" type="text" formControlName="path" />
+            <div
+              *ngIf="
+                menuForm.get('path')?.hasError('required') &&
+                (menuForm.get('path')?.dirty || menuForm.get('path')?.touched)
+              "
+              class="error"
+            >
+              Please enter the Path
+            </div>
+            <div
+              *ngIf="
+                menuForm.get('path')?.hasError('maxlength') &&
+                (menuForm.get('path')?.dirty || menuForm.get('path')?.touched)
+              "
+              class="error"
+            >
+              Path cannot be more than 20 characters.
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-container">
+            <label for="">Icon</label
+            ><input class="form-control" type="text" formControlName="icon" />
+            <div
+              *ngIf="
+                menuForm.get('icon')?.hasError('required') &&
+                (menuForm.get('icon')?.dirty || menuForm.get('icon')?.touched)
+              "
+              class="error"
+            >
+              Please enter a valid icon
+            </div>
+            <div
+              *ngIf="
+                menuForm.get('icon')?.hasError('maxlength') &&
+                (menuForm.get('icon')?.dirty || menuForm.get('icon')?.touched)
+              "
+              class="error"
+            >
+              Icon cannot be more than 30 characters.
+            </div>
+          </div>
+          <div class="input-container">
+            <label>Category</label>
+            <div class="radio-group">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="categoryMain"
+                  formControlName="category"
+                  value="0"
+                  [class.is-invalid]="
+                    menuForm.get('category')?.invalid &&
+                    (menuForm.get('category')?.dirty ||
+                      menuForm.get('category')?.touched)
+                  "
+                />
+                <label class="form-check-label" for="categoryMain">Main</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="categoryMaster"
+                  formControlName="category"
+                  value="1"
+                  [class.is-invalid]="
+                    menuForm.get('category')?.invalid &&
+                    (menuForm.get('category')?.dirty ||
+                      menuForm.get('category')?.touched)
+                  "
+                />
+                <label class="form-check-label" for="categoryMaster"
+                  >Master</label
+                >
+              </div>
+            </div>
+            <div
+              *ngIf="
+                menuForm.get('category')?.invalid &&
+                (menuForm.get('category')?.dirty ||
+                  menuForm.get('category')?.touched)
+              "
+              class="invalid-feedback"
+            >
+              Please select a category
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container d-flex justify-content-center mt-4">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="menuForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,7 +1,50 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <input type="text" [(ngModel)]="loginID" placeholder="Enter Login ID" />
-  <input type="password" [(ngModel)]="password" placeholder="Enter Password" />
-  <button (click)="login()">Login</button>
-  <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+  <form (ngSubmit)="login()" class="login-form">
+    <h2>Login</h2>
+
+    <div class="form-group">
+      <label for="loginID">Login ID</label>
+      <input
+        type="text"
+        id="loginID"
+        [(ngModel)]="loginID"
+        name="loginID"
+        class="form-control"
+        required
+        autocomplete="username"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        class="form-control"
+        required
+        autocomplete="current-password"
+      />
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary btn-block"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="!isLoading">Login</span>
+      <span *ngIf="isLoading">
+        <span
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+        Logging in...
+      </span>
+    </button>
+  </form>
 </div>

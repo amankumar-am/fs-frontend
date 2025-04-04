@@ -1,0 +1,11 @@
+.error {
+  color: red;
+}
+
+.card {
+  width: 70%;
+}
+.input-container {
+  width: 100%;
+  margin: 1rem 0;
+}

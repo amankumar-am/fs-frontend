@@ -4,12 +4,7 @@ import { filter, debounceTime } from 'rxjs/operators';
 import { MenuService, MenuType } from '../../../services/api/menuService/menu.service';
 import { Subscription, fromEvent } from 'rxjs';
 import { CommonModule } from '@angular/common';
-
-interface UserType {
-  name?: string;
-  email?: string;
-  profileImage?: string;
-}
+import { AuthService, IUser } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,7 +12,7 @@ interface UserType {
   styleUrls: ['./sidebar.component.css'],
   imports: [CommonModule, RouterLink, RouterLinkActive]
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit {
   private menuService = inject(MenuService); // Or use constructor injection
   private router = inject(Router);
   private resizeSubscription!: Subscription;
@@ -25,30 +20,47 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Output() collapsedState = new EventEmitter<boolean>();
 
   menuItems: MenuType[] = [];
-  user: UserType = {};
+  masterItems: MenuType[] = [];
   currentRoute = '';
   isCollapsed = false;
   isMobile = false;
   isMobileMenuOpen = false;
+  user: IUser = {
+    Name: "Guest User",
+    Email: "guest@example.com",
+    ProfileImage: ''
+  };
 
-  constructor() { } // If not using `inject()`, inject services here
+  constructor(private authService: AuthService) { } // If not using `inject()`, inject services here
 
   ngOnInit(): void {
     this.checkIfMobile();
     this.setupResizeListener();
     this.loadMenuItems();
     this.setupRouteTracking();
+    this.setupUserSubscription();
   }
 
   private loadMenuItems(): void {
     this.menuService.getMenuItems().subscribe({
       next: (items) => {
-        this.menuItems = items.map(item => ({
-          MenuID: item.MenuID,
-          Name: item.Name?.trim() ?? '',
-          Path: item.Path?.trim() ?? '',
-          Icon: item.Icon?.trim() ?? ''
-        }));
+        this.menuItems = [];
+        this.masterItems = [];
+
+        items.forEach(item => {
+          const mappedItem = {
+            MenuID: item.MenuID,
+            Name: item.Name?.trim() ?? '',
+            Path: item.Path?.trim() ?? '',
+            Icon: item.Icon?.trim() ?? ''
+          };
+
+          if (item.Category === 0) {
+            this.menuItems.push(mappedItem);
+          } else if (item.Category === 1) {
+            this.masterItems.push(mappedItem);
+          }
+        });
       },
       error: (err) => console.error('Error fetching menu items:', err)
     });
@@ -94,5 +106,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.resizeSubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
+  }
+
+  private setupUserSubscription(): void {
+    // Subscribe to user changes
+    this.authService.currentUser$.subscribe(user => {
+      this.user = {
+        Name: user?.Name || "",
+        Email: user?.Email || "",
+        ProfileImage: user?.ProfileImage || ''
+      };
+    });
   }
 }

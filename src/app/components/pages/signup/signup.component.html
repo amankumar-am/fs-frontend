@@ -1,0 +1,129 @@
+<div class="card shadow-sm p-4 mb-4 bg-body rounded">
+  <div class="card-header">
+    <h2 class="card-title">Signup</h2>
+    <p class="card-text">Please fill in the form below to create an account.</p>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="signUpForm" class="form">
+      <div class="row">
+        <div class="col-6">
+          <div class="input-container">
+            <label for="">UserID</label
+            ><input
+              class="form-control"
+              type="number"
+              formControlName="userID"
+            />
+          </div>
+          <div class="input-container">
+            <label for="">Name</label
+            ><input class="form-control" type="text" formControlName="name" />
+            <div
+              *ngIf="
+                signUpForm.get('name')?.hasError('required') &&
+                (signUpForm.get('name')?.dirty ||
+                  signUpForm.get('name')?.touched)
+              "
+              class="error"
+            >
+              Please enter the User Name
+            </div>
+          </div>
+          <div class="input-container">
+            <label for="">Login ID</label
+            ><input
+              class="form-control"
+              type="text"
+              formControlName="loginID"
+            />
+            <div
+              *ngIf="
+                signUpForm.get('loginID')?.hasError('required') &&
+                (signUpForm.get('loginID')?.dirty ||
+                  signUpForm.get('loginID')?.touched)
+              "
+              class="error"
+            >
+              Please enter the Login ID
+            </div>
+          </div>
+          <div class="input-container">
+            <label for="">Password</label
+            ><input
+              class="form-control"
+              type="text"
+              formControlName="password"
+            />
+            <div
+              *ngIf="
+                signUpForm.get('password')?.hasError('required') &&
+                (signUpForm.get('password')?.dirty ||
+                  signUpForm.get('password')?.touched)
+              "
+              class="error"
+            >
+              Please enter a valid password
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-container">
+            <label for="">Email</label
+            ><input class="form-control" type="text" formControlName="email" />
+            <div
+              *ngIf="
+                signUpForm.get('email')?.hasError('required') &&
+                (signUpForm.get('email')?.dirty ||
+                  signUpForm.get('email')?.touched)
+              "
+              class="error"
+            >
+              This field is required.
+            </div>
+            <div
+              *ngIf="
+                signUpForm.get('email')?.hasError('email') &&
+                (signUpForm.get('email')?.dirty ||
+                  signUpForm.get('email')?.touched)
+              "
+              class="error"
+            >
+              Please enter a valid email address
+            </div>
+          </div>
+          <div class="input-container">
+            <label for="">Reporting To</label
+            ><input
+              class="form-control"
+              type="text"
+              formControlName="reportingTo"
+            />
+            <div
+              *ngIf="
+                signUpForm.get('reportingTo')?.hasError('required') &&
+                (signUpForm.get('reportingTo')?.dirty ||
+                  signUpForm.get('reportingTo')?.touched)
+              "
+              class="error"
+            >
+              Please enter the reporting To
+            </div>
+          </div>
+          <div class="input-container">
+            <label for="">Active</label
+            ><input class="form-control" type="text" formControlName="active" />
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="signUpForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
