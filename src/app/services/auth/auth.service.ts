@@ -14,7 +14,7 @@ export interface IUser {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://localhost:3000';
   private tokenSubject = new BehaviorSubject<string | null>(null);
   private jwtHelper = new JwtHelperService();
   private currentUserSubject = new BehaviorSubject<IUser | null>(null);
@@ -43,7 +43,7 @@ export class AuthService {
     }
   }
   login(loginID: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { loginID, password }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/login/auth`, { loginID, password }).pipe(
       tap(response => {
         if (response.token) {
           this.storeToken(response.token);

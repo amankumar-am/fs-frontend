@@ -56,17 +56,17 @@
     <li class="nav-item my-1" *ngFor="let item of menuItems">
       <a
         class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-        [routerLink]="item.Path"
+        [routerLink]="item.path"
         routerLinkActive="active bg-primary text-white"
         [routerLinkActiveOptions]="{ exact: true }"
-        [attr.title]="isCollapsed ? item.Name : null"
+        [attr.title]="isCollapsed ? item.name : null"
       >
         <i
-          class="bi bi-{{ item.Icon || 'circle' }} fs-5"
+          class="bi bi-{{ item.icon || 'circle' }} fs-5"
           [class.me-3]="!isCollapsed"
         ></i>
         <span class="flex-grow-1" [class.d-none]="isCollapsed">
-          {{ item.Name }}
+          {{ item.name }}
         </span>
       </a>
     </li>
@@ -77,17 +77,17 @@
     <li class="nav-item my-1" *ngFor="let item of masterItems">
       <a
         class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-        [routerLink]="item.Path"
+        [routerLink]="item.path"
         routerLinkActive="active bg-primary text-white"
         [routerLinkActiveOptions]="{ exact: true }"
-        [attr.title]="isCollapsed ? item.Name : null"
+        [attr.title]="isCollapsed ? item.name : null"
       >
         <i
-          class="bi bi-{{ item.Icon || 'circle' }} fs-5"
+          class="bi bi-{{ item.icon || 'circle' }} fs-5"
           [class.me-3]="!isCollapsed"
         ></i>
         <span class="flex-grow-1" [class.d-none]="isCollapsed">
-          {{ item.Name }}
+          {{ item.name }}
         </span>
       </a>
     </li>
@@ -147,18 +147,17 @@
     </div>
     <button class="btn-close" (click)="closeMobileMenu()"></button>
   </div>
-  <pre>{{ menuItems | json }}</pre>
   <ul class="nav flex-column flex-grow-1 p-2">
     <li class="nav-item my-1" *ngFor="let item of menuItems">
       <a
         class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-        [routerLink]="item.Path"
+        [routerLink]="item.path"
         routerLinkActive="active bg-primary text-white"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMobileMenu()"
       >
-        <i class="bi bi-{{ item.Icon || 'circle' }} me-3"></i>
-        <span>{{ item.Name }}</span>
+        <i class="bi bi-{{ item.icon || 'circle' }} me-3"></i>
+        <span>{{ item.name }}</span>
       </a>
     </li>
   </ul>

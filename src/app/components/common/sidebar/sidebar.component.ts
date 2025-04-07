@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, inject, Output, EventEmitter } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { filter, debounceTime } from 'rxjs/operators';
-import { MenuService, MenuType } from '../../../services/api/menuService/menu.service';
+import { MenuService } from '../../../services/api/menuService/menu.service';
 import { Subscription, fromEvent } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService, IUser } from '../../../services/auth/auth.service';
+import { IMenu } from '../../../interfaces/menu';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,8 +20,8 @@ export class SidebarComponent implements OnInit {
   private routeSubscription!: Subscription;
   @Output() collapsedState = new EventEmitter<boolean>();
 
-  menuItems: MenuType[] = [];
-  masterItems: MenuType[] = [];
+  menuItems: IMenu[] = [];
+  masterItems: IMenu[] = [];
   currentRoute = '';
   isCollapsed = false;
   isMobile = false;
@@ -49,15 +50,15 @@ export class SidebarComponent implements OnInit {
 
         items.forEach(item => {
           const mappedItem = {
-            MenuID: item.MenuID,
-            Name: item.Name?.trim() ?? '',
-            Path: item.Path?.trim() ?? '',
-            Icon: item.Icon?.trim() ?? ''
+            id: item.id,
+            name: item.name?.trim() ?? '',
+            path: item.path?.trim() ?? '',
+            icon: item.icon?.trim() ?? ''
           };
 
-          if (item.Category === 0) {
+          if (item.category === 0) {
             this.menuItems.push(mappedItem);
-          } else if (item.Category === 1) {
+          } else if (item.category === 1) {
             this.masterItems.push(mappedItem);
           }
         });

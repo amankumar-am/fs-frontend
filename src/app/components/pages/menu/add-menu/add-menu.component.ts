@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddMenuComponent implements OnInit {
   menuForm!: FormGroup;
-
+  isUpdate: boolean = false;
   constructor(private fb: FormBuilder, private menuService: MenuService) { }
   ngOnInit(): void {
     this.initializeForm();
@@ -19,7 +19,7 @@ export class AddMenuComponent implements OnInit {
 
   private initializeForm() {
     this.menuForm = this.fb.group({
-      menuID: [{ value: this.menuService.getMaxMenuId(), disabled: true }],
+      id: ['null'],
       name: ['', [Validators.required, Validators.maxLength(30)]],
       path: ['', [Validators.required, Validators.maxLength(20)]],
       icon: ['', [Validators.required, Validators.maxLength(30)]],
@@ -29,20 +29,9 @@ export class AddMenuComponent implements OnInit {
   onSubmit(form: FormGroup = this.menuForm) {
     if (form.valid) {
       const menuItem = form.value;
-      console.log(menuItem);
-
-      // this.menuService.addMenuItem(menuItem).subscribe((response) => {
-      //   console.log('Menu item added successfully', response);
-      //   // Handle success response here, e.g., navigate to another page or show a success message
-      // }, (error) => {
-      //   console.error('Error adding menu item', error);
-      //   // Handle error response here, e.g., show an error message
-      // });
+      this.menuService.createMenu(menuItem);
     } else {
       console.error('Form is invalid');
     }
   }
-
-
-
 }

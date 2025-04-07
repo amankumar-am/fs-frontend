@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MenuService, MenuType } from '../../../services/api/menuService/menu.service';
+import { MenuService } from '../../../services/api/menuService/menu.service';
 import { CommonModule } from '@angular/common';
+import { IMenu } from '../../../interfaces/menu';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-  menuItems: MenuType[] = [];
+  menuItems: IMenu[] = [];
 
   constructor(private menuService: MenuService, private router: Router) {
   }

@@ -6,7 +6,7 @@
     <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-6">
-          <div class="input-container">
+          <div *ngIf="isUpdate" class="input-container">
             <label for="">Menu ID</label
             ><input
               class="form-control"
