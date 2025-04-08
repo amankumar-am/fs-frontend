@@ -34,11 +34,19 @@
             <td>{{ item.category === 0 ? "Main" : "Master" }}</td>
             <td>
               <div class="d-flex gap-2 justify-content-center">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" (click)="editMenuItem(item)">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-danger">
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteMenuItem(item)"
+                  [disabled]="isDeleting"
+                >
                   <i class="bi bi-trash"></i>
+                  <span
+                    *ngIf="isDeleting"
+                    class="spinner-border spinner-border-sm"
+                  ></span>
                 </button>
               </div>
             </td>

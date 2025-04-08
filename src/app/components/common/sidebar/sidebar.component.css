@@ -23,3 +23,8 @@
 .pulse {
   animation: pulse 2s infinite;
 }
+
+.menuItemsDiv {
+  overflow: auto;
+  padding-bottom: 4rem;
+}

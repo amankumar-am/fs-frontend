@@ -25,7 +25,7 @@ export const routes: Routes = [
     /* admin master routes */
     { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
     { path: 'menu/add', component: AddMenuComponent, canActivate: [AuthGuard] },
-    { path: 'menu/edit', component: AddMenuComponent, canActivate: [AuthGuard] },
+    { path: 'menu/add/:id', component: AddMenuComponent, canActivate: [AuthGuard] },
 
     { path: 'role', component: RoleComponent, canActivate: [AuthGuard] },
 

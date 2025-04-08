@@ -1,122 +1,111 @@
 <div class="container card shadow-sm p-4 mb-4 bg-body rounded">
   <div class="card-header">
-    <h3>Add New Menu</h3>
+    <h3>{{ isUpdate ? "Update Menu" : "Add New Menu" }}</h3>
   </div>
   <div class="card-body">
     <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-6">
-          <div *ngIf="isUpdate" class="input-container">
-            <label for="">Menu ID</label
-            ><input
+          <div *ngIf="isUpdate" class="mb-3">
+            <label class="form-label">Menu ID</label>
+            <input
               class="form-control"
-              type="number"
-              formControlName="menuID"
+              type="text"
+              formControlName="id"
+              readonly
             />
           </div>
-          <div class="input-container">
-            <label for="">Name</label
-            ><input class="form-control" type="text" formControlName="name" />
+
+          <div class="mb-3">
+            <label class="form-label"
+              >Name <span class="text-danger">*</span></label
+            >
+            <input class="form-control" type="text" formControlName="name" />
             <div
               *ngIf="
-                menuForm.get('name')?.hasError('required') &&
+                menuForm.get('name')?.invalid &&
                 (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
               "
-              class="error"
+              class="text-danger"
             >
-              Please enter the Menu Name
-            </div>
-            <div
-              *ngIf="
-                menuForm.get('name')?.hasError('maxlength') &&
-                (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
-              "
-              class="error"
-            >
-              Name cannot be more than 30 characters.
+              <small *ngIf="menuForm.get('name')?.errors?.['required']">
+                Name is required
+              </small>
+              <small *ngIf="menuForm.get('name')?.errors?.['maxlength']">
+                Max length is 100 characters
+              </small>
             </div>
           </div>
-          <div class="input-container">
-            <label for="">Path</label
-            ><input class="form-control" type="text" formControlName="path" />
+
+          <div class="mb-3">
+            <label class="form-label"
+              >Path <span class="text-danger">*</span></label
+            >
+            <input class="form-control" type="text" formControlName="path" />
             <div
               *ngIf="
-                menuForm.get('path')?.hasError('required') &&
+                menuForm.get('path')?.invalid &&
                 (menuForm.get('path')?.dirty || menuForm.get('path')?.touched)
               "
-              class="error"
+              class="text-danger"
             >
-              Please enter the Path
-            </div>
-            <div
-              *ngIf="
-                menuForm.get('path')?.hasError('maxlength') &&
-                (menuForm.get('path')?.dirty || menuForm.get('path')?.touched)
-              "
-              class="error"
-            >
-              Path cannot be more than 20 characters.
+              <small *ngIf="menuForm.get('path')?.errors?.['required']">
+                Path is required
+              </small>
+              <small *ngIf="menuForm.get('path')?.errors?.['maxlength']">
+                Max length is 255 characters
+              </small>
             </div>
           </div>
         </div>
+
         <div class="col-6">
-          <div class="input-container">
-            <label for="">Icon</label
-            ><input class="form-control" type="text" formControlName="icon" />
+          <div class="mb-3">
+            <label class="form-label"
+              >Icon <span class="text-danger">*</span></label
+            >
+            <input class="form-control" type="text" formControlName="icon" />
             <div
               *ngIf="
-                menuForm.get('icon')?.hasError('required') &&
+                menuForm.get('icon')?.invalid &&
                 (menuForm.get('icon')?.dirty || menuForm.get('icon')?.touched)
               "
-              class="error"
+              class="text-danger"
             >
-              Please enter a valid icon
-            </div>
-            <div
-              *ngIf="
-                menuForm.get('icon')?.hasError('maxlength') &&
-                (menuForm.get('icon')?.dirty || menuForm.get('icon')?.touched)
-              "
-              class="error"
-            >
-              Icon cannot be more than 30 characters.
+              <small *ngIf="menuForm.get('icon')?.errors?.['required']">
+                Icon is required
+              </small>
+              <small *ngIf="menuForm.get('icon')?.errors?.['maxlength']">
+                Max length is 100 characters
+              </small>
             </div>
           </div>
-          <div class="input-container">
-            <label>Category</label>
-            <div class="radio-group">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="categoryMain"
-                  formControlName="category"
-                  value="0"
-                  [class.is-invalid]="
-                    menuForm.get('category')?.invalid &&
-                    (menuForm.get('category')?.dirty ||
-                      menuForm.get('category')?.touched)
-                  "
-                />
-                <label class="form-check-label" for="categoryMain">Main</label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="categoryMaster"
-                  formControlName="category"
-                  value="1"
-                  [class.is-invalid]="
-                    menuForm.get('category')?.invalid &&
-                    (menuForm.get('category')?.dirty ||
-                      menuForm.get('category')?.touched)
-                  "
-                />
-                <label class="form-check-label" for="categoryMaster"
-                  >Master</label
-                >
-              </div>
+
+          <div class="mb-3">
+            <label class="form-label"
+              >Category <span class="text-danger">*</span></label
+            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="categoryMain"
+                formControlName="category"
+                value="0"
+              />
+              <label class="form-check-label" for="categoryMain">Main</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="categoryMaster"
+                formControlName="category"
+                value="1"
+              />
+              <label class="form-check-label" for="categoryMaster"
+                >Master</label
+              >
             </div>
             <div
               *ngIf="
@@ -124,20 +113,24 @@
                 (menuForm.get('category')?.dirty ||
                   menuForm.get('category')?.touched)
               "
-              class="invalid-feedback"
+              class="text-danger"
             >
-              Please select a category
+              <small>Please select a category</small>
             </div>
           </div>
         </div>
       </div>
-      <div class="container d-flex justify-content-center mt-4">
+
+      <div class="d-flex justify-content-center gap-2 mt-4">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">
+          Cancel
+        </button>
         <button
-          class="btn btn-primary"
           type="submit"
+          class="btn btn-primary"
           [disabled]="menuForm.invalid"
         >
-          Submit
+          {{ isUpdate ? "Update" : "Create" }}
         </button>
       </div>
     </form>

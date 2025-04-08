@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RoleService, RoleType } from '../../../services/api/roleService/role.service';
+import { RoleService, IRole } from '../../../services/api/roleService/role.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './role.component.css'
 })
 export class RoleComponent {
-  roleItems: RoleType[] = [];
+  roleItems: IRole[] = [];
 
   constructor(private roleService: RoleService) {
   }

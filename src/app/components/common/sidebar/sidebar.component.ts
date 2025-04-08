@@ -6,6 +6,7 @@ import { Subscription, fromEvent } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService, IUser } from '../../../services/auth/auth.service';
 import { IMenu } from '../../../interfaces/menu';
+import { MenuStateService } from '../../../services/api/menuService/menu-state.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,14 +33,20 @@ export class SidebarComponent implements OnInit {
     ProfileImage: ''
   };
 
-  constructor(private authService: AuthService) { } // If not using `inject()`, inject services here
-
+  constructor(
+    private authService: AuthService,
+    private menuState: MenuStateService
+  ) { }
   ngOnInit(): void {
     this.checkIfMobile();
     this.setupResizeListener();
     this.loadMenuItems();
     this.setupRouteTracking();
     this.setupUserSubscription();
+
+    this.menuState.menuUpdated$.subscribe(() => {
+      this.loadMenuItems();
+    });
   }
 
   private loadMenuItems(): void {
