@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface IUser {
-  Name?: string;
-  Email?: string;
-  ProfileImage?: string;
+  name?: string;
+  email?: string;
+  profileImage?: string;
 }
 
 @Injectable({
@@ -31,6 +31,11 @@ export class AuthService {
       }
     }
   }
+
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+
   private loadUserFromStorage() {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -48,6 +53,7 @@ export class AuthService {
         if (response.token) {
           this.storeToken(response.token);
           this.setCurrentUser(response.user);
+          this.isLoggedInSubject.next(true);
         }
       })
     );
@@ -70,6 +76,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.tokenSubject.next(null);
+    this.isLoggedInSubject.next(false);
     this.router.navigate(['/login']);
     this.clearCurrentUser();
   }

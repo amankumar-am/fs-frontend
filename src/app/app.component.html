@@ -5,6 +5,7 @@
     <app-sidebar
       class="sidebar"
       [class.collapsed]="isSidebarCollapsed"
+      *ngIf="loggedIn"
     ></app-sidebar>
     <div class="content-area" [class.collapsed]="isSidebarCollapsed">
       <router-outlet></router-outlet>

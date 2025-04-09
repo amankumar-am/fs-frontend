@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { IMenu } from '../../../interfaces/menu';
+import { IMenu, IUserMenu } from '../../../interfaces/menu';
 import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
@@ -20,7 +20,29 @@ export class MenuService {
       'Authorization': `Bearer ${token}`
     });
   }
-
+  getUserMenuItems(): Observable<IUserMenu[]> {
+    return this.http.get<IUserMenu[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
+      map((backendItems: any[]) => {
+        return backendItems.map((item: any) => ({
+          userId: item.USM_Id,
+          userLoginId: item.USM_LoginID.trim(),
+          userName: item.USM_Name.trim(),
+          userEmail: item.USM_Email.trim(),
+          userProfileImage: item.USM_ProfileImage.trim(),
+          menuId: item.MN_Id,
+          menuName: item.MN_Name.trim(),
+          menuPath: item.MN_Path.trim(),
+          menuIcon: item.MN_Icon.trim(),
+          menuCategory: item.MN_Category,
+          canAdd: item.RD_CanAdd,
+          canDelete: item.RD_CanDelete,
+          canUpdate: item.RD_CanUpdate,
+          canView: item.RD_CanView,
+        }));
+      }),
+      catchError(this.handleError)
+    )
+  }
   getMenuItems(): Observable<IMenu[]> {
     return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
       map((backendItems: any[]) => {
@@ -71,9 +93,6 @@ export class MenuService {
       MN_Icon: menuData.icon,
       MN_Category: menuData.category
     };
-    console.log(backendFormat);
-
-
     return this.http.put(`${this.apiUrl}/${id}`, backendFormat, {
       headers: this.getHeaders()
     }).pipe(

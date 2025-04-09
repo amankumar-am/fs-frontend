@@ -10,3 +10,21 @@ export interface IMenu {
     updatedAt?: string;
     isActive?: boolean;
 }
+
+
+export interface IUserMenu {
+    userId: number,
+    userLoginId: string,
+    userName: string,
+    userEmail: string,
+    userProfileImage: string,
+    menuId: number,
+    menuName: string,
+    menuPath: string,
+    menuIcon: string,
+    menuCategory: number,
+    canAdd: boolean,
+    canDelete: boolean,
+    canUpdate: boolean,
+    canView: boolean,
+}

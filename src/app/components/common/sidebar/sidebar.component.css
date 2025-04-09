@@ -28,3 +28,7 @@
   overflow: auto;
   padding-bottom: 4rem;
 }
+
+.masterFont {
+  font-size: 10px;
+}

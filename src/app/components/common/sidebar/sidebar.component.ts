@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, inject, Output, EventEmitter } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Component, OnInit, inject, Output, EventEmitter } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, debounceTime } from 'rxjs/operators';
 import { MenuService } from '../../../services/api/menuService/menu.service';
 import { Subscription, fromEvent } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService, IUser } from '../../../services/auth/auth.service';
-import { IMenu } from '../../../interfaces/menu';
+import { IUserMenu } from '../../../interfaces/menu';
 import { MenuStateService } from '../../../services/api/menuService/menu-state.service';
 
 @Component({
@@ -21,16 +21,16 @@ export class SidebarComponent implements OnInit {
   private routeSubscription!: Subscription;
   @Output() collapsedState = new EventEmitter<boolean>();
 
-  menuItems: IMenu[] = [];
-  masterItems: IMenu[] = [];
+  menuItems: IUserMenu[] = [];
+  masterItems: IUserMenu[] = [];
   currentRoute = '';
   isCollapsed = false;
   isMobile = false;
   isMobileMenuOpen = false;
   user: IUser = {
-    Name: "Guest User",
-    Email: "guest@example.com",
-    ProfileImage: ''
+    name: "Guest User",
+    email: "guest@example.com",
+    profileImage: ''
   };
 
   constructor(
@@ -50,24 +50,40 @@ export class SidebarComponent implements OnInit {
   }
 
   private loadMenuItems(): void {
-    this.menuService.getMenuItems().subscribe({
+    this.menuService.getUserMenuItems().subscribe({
       next: (items) => {
         this.menuItems = [];
         this.masterItems = [];
 
         items.forEach(item => {
           const mappedItem = {
-            id: item.id,
-            name: item.name?.trim() ?? '',
-            path: item.path?.trim() ?? '',
-            icon: item.icon?.trim() ?? ''
+            userId: item.userId,
+            userLoginId: item.userLoginId,
+            userName: item.userName,
+            userEmail: item.userEmail,
+            userProfileImage: item.userProfileImage,
+            menuId: item.menuId,
+            menuName: item.menuName?.trim() ?? '',
+            menuPath: item.menuPath?.trim() ?? '',
+            menuIcon: item.menuIcon?.trim() ?? '',
+            menuCategory: item.menuCategory,
+            canView: item.canView,
+            canAdd: item.canAdd,
+            canUpdate: item.canUpdate,
+            canDelete: item.canDelete,
           };
 
-          if (item.category === 0) {
+          if (item.menuCategory === 0 && item.canView) {
             this.menuItems.push(mappedItem);
-          } else if (item.category === 1) {
+          } else if (item.menuCategory === 1 && item.canView) {
             this.masterItems.push(mappedItem);
           }
+          this.user = {
+            name: item.userName,
+            email: item.userEmail,
+            profileImage: item.userProfileImage,
+          }
+
         });
       },
       error: (err) => console.error('Error fetching menu items:', err)
@@ -120,9 +136,9 @@ export class SidebarComponent implements OnInit {
     // Subscribe to user changes
     this.authService.currentUser$.subscribe(user => {
       this.user = {
-        Name: user?.Name || "",
-        Email: user?.Email || "",
-        ProfileImage: user?.ProfileImage || ''
+        name: user?.name || "",
+        email: user?.email || "",
+        profileImage: user?.profileImage || ''
       };
     });
   }

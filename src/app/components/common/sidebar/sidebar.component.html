@@ -11,7 +11,7 @@
     <div class="d-flex flex-column align-items-center w-100 position-relative">
       <div class="mb-2" [class.avatar-collapsed]="isCollapsed">
         <img
-          [src]="user.ProfileImage || './default-avatar.jpg'"
+          [src]="user.profileImage || './default-avatar.jpg'"
           class="rounded-circle border object-fit-cover"
           [style.width]="isCollapsed ? '36px' : '50px'"
           [style.height]="isCollapsed ? '36px' : '50px'"
@@ -23,9 +23,9 @@
         [class.d-none]="isCollapsed"
       >
         <div>
-          <h6 class="mb-0">{{ user.Name || "Guest User" }}</h6>
+          <h6 class="mb-0">{{ user.name }}</h6>
           <small class="text-muted">{{
-            user.Email || "guest@example.com"
+            user.email || "guest@example.com"
           }}</small>
         </div>
         <button
@@ -57,38 +57,42 @@
       <li class="nav-item my-1" *ngFor="let item of menuItems">
         <a
           class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-          [routerLink]="item.path"
+          [routerLink]="item.menuPath"
           routerLinkActive="active bg-primary text-white"
           [routerLinkActiveOptions]="{ exact: true }"
-          [attr.title]="isCollapsed ? item.name : null"
+          [attr.title]="isCollapsed ? item.menuName : null"
         >
           <i
-            class="bi bi-{{ item.icon || 'circle' }} fs-5"
+            class="bi bi-{{ item.menuIcon || 'circle' }} fs-5"
             [class.me-3]="!isCollapsed"
           ></i>
           <span class="flex-grow-1" [class.d-none]="isCollapsed">
-            {{ item.name }}
+            {{ item.menuName }}
           </span>
         </a>
       </li>
 
-      <hr />
-      <span class="text-center fw-bolder">Master Data</span>
-      <hr />
+      <span *ngIf="masterItems.length" class="text-center">
+        <hr />
+        <span class="fw-bolder" [class.masterFont]="isCollapsed"
+          >Master Data</span
+        >
+        <hr />
+      </span>
       <li class="nav-item my-1" *ngFor="let item of masterItems">
         <a
           class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-          [routerLink]="item.path"
+          [routerLink]="item.menuPath"
           routerLinkActive="active bg-primary text-white"
           [routerLinkActiveOptions]="{ exact: true }"
-          [attr.title]="isCollapsed ? item.name : null"
+          [attr.title]="isCollapsed ? item.menuName : null"
         >
           <i
-            class="bi bi-{{ item.icon || 'circle' }} fs-5"
+            class="bi bi-{{ item.menuIcon || 'circle' }} fs-5"
             [class.me-3]="!isCollapsed"
           ></i>
           <span class="flex-grow-1" [class.d-none]="isCollapsed">
-            {{ item.name }}
+            {{ item.menuIcon }}
           </span>
         </a>
       </li>
@@ -136,14 +140,14 @@
       >
         <div class="d-flex align-items-center">
           <img
-            [src]="user.ProfileImage || './default-avatar.jpg'"
+            [src]="user.profileImage || './default-avatar.jpg'"
             class="rounded-circle border me-3 object-fit-cover"
             style="width: 50px; height: 50px"
           />
           <div>
-            <h6 class="mb-0">{{ user.Name || "Guest User" }}</h6>
+            <h6 class="mb-0">{{ user.name || "Guest User" }}</h6>
             <small class="text-muted">{{
-              user.Email || "guest@example.com"
+              user.email || "guest@example.com"
             }}</small>
           </div>
         </div>
@@ -153,13 +157,13 @@
         <li class="nav-item my-1" *ngFor="let item of menuItems">
           <a
             class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-            [routerLink]="item.path"
+            [routerLink]="item.menuPath"
             routerLinkActive="active bg-primary text-white"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="closeMobileMenu()"
           >
-            <i class="bi bi-{{ item.icon || 'circle' }} me-3"></i>
-            <span>{{ item.name }}</span>
+            <i class="bi bi-{{ item.menuIcon || 'circle' }} me-3"></i>
+            <span>{{ item.menuIcon }}</span>
           </a>
         </li>
       </ul>

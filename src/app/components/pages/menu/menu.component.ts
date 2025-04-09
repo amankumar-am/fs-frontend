@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../../services/api/menuService/menu.service';
 import { CommonModule } from '@angular/common';
-import { IMenu } from '../../../interfaces/menu';
+import { IMenu, IUserMenu } from '../../../interfaces/menu';
 import { ToastrService } from 'ngx-toastr';
-import { SidebarComponent } from '../../common/sidebar/sidebar.component';
 import { MenuStateService } from '../../../services/api/menuService/menu-state.service';
 
 @Component({
@@ -14,8 +13,9 @@ import { MenuStateService } from '../../../services/api/menuService/menu-state.s
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-  menuItems: IMenu[] = [];
+  menuItems: IUserMenu[] = [];
   isDeleting = false;
+  userCanAddMenu = false;
 
   constructor(
     private menuService: MenuService,
@@ -25,8 +25,9 @@ export class MenuComponent {
   ) {
   }
   ngOnInit(): void {
-    this.menuService.getMenuItems().subscribe((items) => {
+    this.menuService.getUserMenuItems().subscribe((items) => {
       this.menuItems = items;
+      this.userCanAddMenu = this.getMenuCreateInfoForUser(items);
     });
   }
 
@@ -35,14 +36,17 @@ export class MenuComponent {
     this.router.navigate(['/menu/add']);
   }
 
-  editMenuItem(item: any) {
-    console.log(item);
-    this.router.navigate(['/menu/add', item.id], { state: { itemData: item } })
+  editMenuItem(item: IUserMenu) {
+    let itemData: IMenu = {
+      id: item.menuId,
+      name: item.menuName
+    }
+    this.router.navigate(['/menu/add', item.menuId], { state: { itemData: itemData } })
   }
 
-  deleteMenuItem(item: IMenu): void {
-    if (confirm(`Delete "${item.name}"?`)) {
-      this.menuService.deleteMenuItem(item.id).subscribe({
+  deleteMenuItem(item: IUserMenu): void {
+    if (confirm(`Delete "${item.menuName}"?`)) {
+      this.menuService.deleteMenuItem(item.menuId).subscribe({
         next: () => {
           this.toastr.success('Menu deleted');
           this.loadMenuItems();
@@ -57,7 +61,7 @@ export class MenuComponent {
 
   // Make sure you have this separate method for loading items
   private loadMenuItems(): void {
-    this.menuService.getMenuItems().subscribe({
+    this.menuService.getUserMenuItems().subscribe({
       next: (items) => {
         this.menuItems = items;
       },
@@ -66,5 +70,14 @@ export class MenuComponent {
         console.error(err);
       }
     });
+  }
+
+  private getMenuCreateInfoForUser(userMenuData: IUserMenu[]): boolean {
+    for (let item of userMenuData) {
+      if (item.menuName.trim() === "Menu" && item.canAdd === true) {
+        return true
+      }
+    }
+    return false;
   }
 }
