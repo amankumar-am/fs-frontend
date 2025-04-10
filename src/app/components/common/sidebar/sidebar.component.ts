@@ -83,7 +83,6 @@ export class SidebarComponent implements OnInit {
             email: item.userEmail,
             profileImage: item.userProfileImage,
           }
-
         });
       },
       error: (err) => console.error('Error fetching menu items:', err)

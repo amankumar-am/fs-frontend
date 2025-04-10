@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+
 body {
   padding-top: 60px; /* Matches header height */
+  overflow: hidden;
 }
 /* ============ GLOBAL ANIMATIONS ============ */
 @keyframes fadeIn {
@@ -29,4 +32,55 @@ body {
 * {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+/* Toastr Base Styles */
+
+/* Custom Toastr Styling */
+.toast-container {
+  position: fixed;
+  z-index: 1100;
+}
+
+/* Position Toasts */
+.toast-bottom-right {
+  bottom: 70px;
+  right: 12px;
+}
+
+/* Toastr Theme Colors */
+.toast-success {
+  background-color: #51a351;
+}
+
+.toast-error {
+  background-color: #bd362f !important;
+}
+
+.toast-info {
+  background-color: #2f96b4 !important;
+}
+
+.toast-warning {
+  background-color: #f89406 !important;
+}
+
+/* Make sure toast doesn't hide behind elements */
+.cdk-overlay-container {
+  z-index: 1100 !important;
+}
+
+/* Animation fix */
+.toast {
+  opacity: 1 !important;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 50px;
+  width: 300px;
+  border-radius: 4px;
+  color: white;
+  box-shadow: 0 0 12px #00000026;
+  background-position: 15px center;
+  background-repeat: no-repeat;
 }

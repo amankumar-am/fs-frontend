@@ -14,6 +14,16 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(routes),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideAnimations(), provideToastr()
+    provideAnimations(), provideToastr({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      progressBar: true,
+      timeOut: 3000,
+      closeButton: true,
+      progressAnimation: 'decreasing',
+      enableHtml: true,
+      newestOnTop: true,
+      tapToDismiss: false
+    })
   ]
 };

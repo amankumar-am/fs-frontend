@@ -1,36 +1,67 @@
-/* Ensure proper sizing */
+/* Reset */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Main container */
 .app-container {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
 }
 
+/* Header - fixed height */
 .header {
-  height: 60px;
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1060;
 }
 
-.footer {
-  height: 50px;
-  flex-shrink: 0;
-}
-
+/* Main content area - takes remaining space */
 .main-content {
   flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
 }
 
+/* Sidebar */
 .sidebar {
-  width: 250px; /* Default width */
+  width: 250px;
   flex-shrink: 0;
   transition: width 0.3s ease;
+  overflow-y: auto; /* Allows sidebar scrolling if needed */
+  height: 100%; /* Fill available height */
 }
 
-.content-area {
-  /* This will make the content area take remaining space */
-  min-width: 0; /* Important for flexbox */
-  height: 100vh;
-  margin-left: 20rem;
-}
-
-/* When sidebar is collapsed */
 .sidebar.collapsed {
   width: 60px;
+}
+
+/* Content area - scrollable */
+.content-area {
+  flex: 1;
+  overflow-y: auto; /* Enables scrolling just for content */
+  padding: 1rem;
+  height: 90%; /* Fill available height */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.content-area.collapsed {
+  margin-left: 60px;
+}
+
+/* Footer - fixed at bottom */
+.footer {
+  height: 50px; /* Adjust to your footer's actual height */
+  flex-shrink: 0;
+  background-color: gray;
+  position: sticky;
+  bottom: 0;
+  z-index: 1050; /* Ensure it stays above content */
 }
