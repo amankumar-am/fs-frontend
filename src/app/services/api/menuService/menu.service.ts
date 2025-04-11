@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, distinctUntilChanged, map, timeout } from 'rxjs/operators';
 import { IMenu, IUserMenu } from '../../../interfaces/menu';
 import { AuthService } from '../../auth/auth.service';
 
@@ -124,9 +124,32 @@ export class MenuService {
     return throwError(() => new Error(errorMessage));
   }
 
-  checkMenuNameExists(menuName: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/checkNameExits/${menuName}`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
+  checkNameExists(menuName: string): Observable<boolean> {
+    if (!menuName?.trim()) {
+      return of(false);
+    }
+
+    const encodedName = encodeURIComponent(menuName.trim());
+
+    return this.http.get<{ exists: boolean } | boolean>(
+      `${this.apiUrl}/checkNameExists/${encodedName}`,
+      {
+        headers: this.getHeaders(),
+        params: { name: menuName }
+      }
+    ).pipe(
+      map(response => {
+        if (typeof response === 'boolean') {
+          return response;
+        }
+        return response?.exists ?? false;
+      }),
+      catchError(error => {
+        this.handleError(error);
+        return of(false);
+      }),
+      distinctUntilChanged(),
+      timeout(5000)
     );
   }
 }

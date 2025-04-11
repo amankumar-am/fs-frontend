@@ -24,6 +24,6 @@ export const appConfig: ApplicationConfig = {
       enableHtml: true,
       newestOnTop: true,
       tapToDismiss: false
-    })
+    }),
   ]
 };

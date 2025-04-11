@@ -28,13 +28,15 @@
               type="text"
               formControlName="name"
               [class.is-invalid]="
-                menuForm.get('name')?.invalid &&
+                (menuForm.get('name')?.invalid ||
+                  menuForm.get('name')?.pending) &&
                 (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
               "
             />
             <div
               *ngIf="
-                menuForm.get('name')?.invalid &&
+                (menuForm.get('name')?.invalid ||
+                  menuForm.get('name')?.pending) &&
                 (menuForm.get('name')?.dirty || menuForm.get('name')?.touched)
               "
               class="invalid-feedback"
@@ -43,7 +45,10 @@
                 Name is required
               </div>
               <div *ngIf="menuForm.get('name')?.errors?.['maxlength']">
-                Max 100 characters
+                Maximum 100 characters allowed
+              </div>
+              <div *ngIf="menuForm.get('name')?.errors?.['nameExists']">
+                This name already exists
               </div>
             </div>
           </div>
@@ -76,7 +81,7 @@
                 Path is required
               </div>
               <div *ngIf="menuForm.get('path')?.errors?.['maxlength']">
-                Max 255 characters
+                Max 30 characters
               </div>
             </div>
           </div>

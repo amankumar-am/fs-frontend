@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IMenu } from '../../../../interfaces/menu';
 import { CommonModule } from '@angular/common';
 import { MenuStateService } from '../../../../services/api/menuService/menu-state.service';
+import { NameExistsValidator } from '../../../Validators/name-exists.validators';
 
 @Component({
   selector: 'app-add-menu',
@@ -25,11 +26,16 @@ export class AddMenuComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private menuStateService: MenuStateService
+    private menuStateService: MenuStateService,
+    private nameExistsValidator: NameExistsValidator
   ) {
     this.menuForm = this.fb.group({
       id: [null],
-      name: ['', [Validators.required, Validators.maxLength(100)]],
+      name: ['', {
+        validators: [Validators.required, Validators.maxLength(100)],
+        asyncValidators: [this.nameExistsValidator.validate.bind(this.nameExistsValidator)],
+        updateOn: 'blur'
+      }],
       path: ['', [Validators.required, Validators.maxLength(255)]],
       icon: ['', [Validators.required, Validators.maxLength(100)]],
       category: [null, Validators.required]

@@ -54,9 +54,9 @@
       >
         <thead>
           <tr class="table-primary text-center small">
-            <th width="120">Action</th>
+            <th width="100">Action</th>
             <th width="60">S.No.</th>
-            <th (click)="sort('menuId')">
+            <th width="100" (click)="sort('menuId')">
               Menu ID <i class="bi ms-1" [ngClass]="getSortIcon('menuId')"></i>
             </th>
             <th (click)="sort('menuName')">
@@ -104,7 +104,7 @@
             <td class="text-center">
               {{ (currentPage - 1) * itemsPerPage + i + 1 }}
             </td>
-            <td>{{ item.menuId }}</td>
+            <td>{{ item.menuId | number }}</td>
             <td>{{ item.menuName }}</td>
             <td>{{ item.menuPath ? "/" + item.menuPath : "/" }}</td>
             <td>{{ item.menuIcon || "-" }}</td>
