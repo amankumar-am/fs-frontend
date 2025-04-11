@@ -1,4 +1,23 @@
 .footer {
-  height: 3rem;
-  background-color: gray;
+  background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+}
+
+.footer a {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.footer a:hover {
+  color: #adb5bd !important;
+}
+
+.footer a:not(:last-child):after {
+  content: "|";
+  position: absolute;
+  right: -12px;
+  color: #6c757d;
+}
+
+.footer a:last-child:after {
+  display: none;
 }

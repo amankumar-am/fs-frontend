@@ -27,11 +27,11 @@ export class SidebarComponent implements OnInit {
   isCollapsed = false;
   isMobile = false;
   isMobileMenuOpen = false;
-  user: IUser = {
-    name: "Guest User",
-    email: "guest@example.com",
-    profileImage: ''
-  };
+  // user: IUser = {
+  //   name: "Guest User",
+  //   email: "guest@example.com",
+  //   profileImage: ''
+  // };
 
   constructor(
     private authService: AuthService,
@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit {
     this.setupResizeListener();
     this.loadMenuItems();
     this.setupRouteTracking();
-    this.setupUserSubscription();
+    // this.setupUserSubscription();
 
     this.menuState.menuUpdated$.subscribe(() => {
       this.loadMenuItems();
@@ -78,11 +78,11 @@ export class SidebarComponent implements OnInit {
           } else if (item.menuCategory === 1 && item.canView) {
             this.masterItems.push(mappedItem);
           }
-          this.user = {
-            name: item.userName,
-            email: item.userEmail,
-            profileImage: item.userProfileImage,
-          }
+          // this.user = {
+          //   name: item.userName,
+          //   email: item.userEmail,
+          //   profileImage: item.userProfileImage,
+          // }
         });
       },
       error: (err) => console.error('Error fetching menu items:', err)
@@ -131,14 +131,14 @@ export class SidebarComponent implements OnInit {
     this.routeSubscription?.unsubscribe();
   }
 
-  private setupUserSubscription(): void {
-    // Subscribe to user changes
-    this.authService.currentUser$.subscribe(user => {
-      this.user = {
-        name: user?.name || "",
-        email: user?.email || "",
-        profileImage: user?.profileImage || ''
-      };
-    });
-  }
+  // private setupUserSubscription(): void {
+  //   // Subscribe to user changes
+  //   this.authService.currentUser$.subscribe(user => {
+  //     this.user = {
+  //       name: user?.name || "",
+  //       email: user?.email || "",
+  //       profileImage: user?.profileImage || ''
+  //     };
+  //   });
+  // }
 }

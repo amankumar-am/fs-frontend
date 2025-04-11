@@ -1,13 +1,39 @@
-.error {
-  color: red;
+/* Custom styles for the form */
+.card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+/* Better radio button group styling */
+.btn-group .btn {
+  flex: 1;
+}
+
+/* Compact form controls */
+.form-control-sm,
+.input-group-sm .form-control {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Error states */
+.is-invalid {
+  border-color: #dc3545;
 }
 
 .invalid-feedback {
-  color: #dc3545;
-  font-size: 0.875em;
-  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
 }
 
-.is-invalid {
-  border-color: #dc3545;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem;
+  }
 }

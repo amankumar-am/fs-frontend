@@ -3,175 +3,93 @@
   *ngIf="!isMobile"
   class="sidebar-container"
   [class.sidebar-collapsed]="isCollapsed"
-  [style.width]="isCollapsed ? '70px' : '250px'"
+  [style.width]="isCollapsed ? '64px' : '220px'"
 >
   <!-- Profile Section -->
-  <div class="border-bottom p-3 d-flex flex-column align-items-center">
+  <div class="p-2 d-flex flex-column align-items-center">
     <div class="d-flex flex-column align-items-center w-100 position-relative">
-      <div class="mb-2" [class.avatar-collapsed]="isCollapsed">
-        <img
-          [src]="user.profileImage || './default-avatar.jpg'"
-          class="rounded-circle border object-fit-cover"
-          [style.width]="isCollapsed ? '36px' : '50px'"
-          [style.height]="isCollapsed ? '36px' : '50px'"
-        />
-      </div>
-      <!-- Expanded State - Button on right -->
-      <div
-        class="w-100 d-flex justify-content-between align-items-center"
-        [class.d-none]="isCollapsed"
+      <div class="mb-1" [class.avatar-collapsed]="isCollapsed"></div>
+      <!-- Toggle Button -->
+      <button
+        class="btn btn-lg btn-light border toggle-btn"
+        [class.rounded-circle]="isCollapsed"
+        [class.p-0]="isCollapsed"
+        (click)="toggleCollapse()"
+        [title]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
       >
-        <div>
-          <h6 class="mb-0">{{ user.name }}</h6>
-          <small class="text-muted">{{
-            user.email || "guest@example.com"
-          }}</small>
-        </div>
-        <button
-          class="btn btn-sm btn-outline-secondary ms-2"
-          (click)="toggleCollapse()"
-          title="Collapse sidebar"
-        >
-          <i class="bi bi-chevron-left"></i>
-        </button>
-      </div>
-
-      <!-- Collapsed State - Button below -->
-      <div class="text-center" [class.d-none]="!isCollapsed">
-        <button
-          class="btn btn-sm btn-outline-secondary rounded-circle p-1 mt-1"
-          (click)="toggleCollapse()"
-          title="Expand sidebar"
-          style="width: 30px; height: 30px"
-        >
-          <i class="bi bi-chevron-right"></i>
-        </button>
-      </div>
+        <i
+          class="bi"
+          [class.bi-arrow-bar-right]="isCollapsed"
+          [class.bi-arrow-bar-left]="!isCollapsed"
+        ></i>
+      </button>
     </div>
   </div>
 
-  <!-- Menu Items - This div will scroll when content overflows -->
+  <!-- Menu Items -->
   <div class="menuItemsDiv">
-    <ul class="nav flex-column p-2">
-      <li class="nav-item my-1" *ngFor="let item of menuItems">
+    <ul class="nav flex-column p-1">
+      <!-- Main Menu Heading -->
+      <li class="nav-item mt-1 mb-0">
+        <div
+          class="text-uppercase small fw-bold text-muted px-2 py-0"
+          [class.text-center]="isCollapsed"
+          [class.text-uppercase-sm]="isCollapsed"
+        >
+          Main
+        </div>
+      </li>
+
+      <!-- Main Menu Items -->
+      <li class="nav-item" *ngFor="let item of menuItems">
         <a
-          class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
+          class="nav-link d-flex align-items-center py-1 px-2 rounded text-dark text-decoration-none"
           [routerLink]="item.menuPath"
           routerLinkActive="active bg-primary text-white"
           [routerLinkActiveOptions]="{ exact: true }"
           [attr.title]="isCollapsed ? item.menuName : null"
         >
           <i
-            class="bi bi-{{ item.menuIcon || 'circle' }} fs-5"
-            [class.me-3]="!isCollapsed"
+            class="bi bi-{{ item.menuIcon || 'circle' }}"
+            [class.me-2]="!isCollapsed"
+            [class.fs-6]="!isCollapsed"
           ></i>
-          <span class="flex-grow-1" [class.d-none]="isCollapsed">
-            {{ item.menuName }}
-          </span>
+          <span class="flex-grow-1" [class.d-none]="isCollapsed">{{
+            item.menuName
+          }}</span>
         </a>
       </li>
 
-      <span *ngIf="masterItems.length" class="text-center">
-        <hr />
-        <span class="fw-bolder" [class.masterFont]="isCollapsed"
-          >Master Data</span
+      <!-- Master Data Heading -->
+      <li class="nav-item mt-1 mb-0" *ngIf="masterItems.length">
+        <div
+          class="text-uppercase small fw-bold text-muted px-2 py-0"
+          [class.text-center]="isCollapsed"
+          [class.text-uppercase-sm]="isCollapsed"
         >
-        <hr />
-      </span>
-      <li class="nav-item my-1" *ngFor="let item of masterItems">
+          Master <span *ngIf="!isCollapsed">Data</span>
+        </div>
+      </li>
+
+      <!-- Master Data Items -->
+      <li class="nav-item" *ngFor="let item of masterItems">
         <a
-          class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
+          class="nav-link d-flex align-items-center py-1 px-2 rounded text-dark text-decoration-none"
           [routerLink]="item.menuPath"
           routerLinkActive="active bg-primary text-white"
           [routerLinkActiveOptions]="{ exact: true }"
           [attr.title]="isCollapsed ? item.menuName : null"
         >
           <i
-            class="bi bi-{{ item.menuIcon || 'circle' }} fs-5"
-            [class.me-3]="!isCollapsed"
+            class="bi bi-{{ item.menuIcon || 'circle' }}"
+            [class.me-2]="!isCollapsed"
+            [class.fs-6]="!isCollapsed"
           ></i>
-          <span class="flex-grow-1" [class.d-none]="isCollapsed">
-            {{ item.menuName }}
-          </span>
+          <span class="flex-grow-1" [class.d-none]="isCollapsed">{{
+            item.menuName
+          }}</span>
         </a>
       </li>
     </ul>
-  </div>
-  <!-- Mobile Menu Overlay -->
-  <div
-    *ngIf="isMobileMenuOpen && isMobile"
-    class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
-    style="z-index: 1050"
-    (click)="closeMobileMenu()"
-  ></div>
-
-  <!-- Mobile Menu Content -->
-  <div
-    *ngIf="isMobile"
-    class="position-fixed top-0 start-0 h-100 bg-light d-flex flex-column border-end shadow"
-    style="
-      width: 280px;
-      z-index: 1060;
-      transition: transform 0.3s ease;
-      transform: translateX(-100%);
-    "
-    [style.top]="'60px'"
-    [style.bottom]="'50px'"
-    [style.transform]="isMobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)'"
-  >
-    <div
-      class="d-flex justify-content-between align-items-center p-3 border-bottom"
-    >
-      <div class="d-flex align-items-center">
-        <img
-          [src]="user.profileImage || './default-avatar.jpg'"
-          class="rounded-circle border me-3 object-fit-cover"
-          style="width: 50px; height: 50px"
-        />
-        <div>
-          <h6 class="mb-0">{{ user.name || "Guest User" }}</h6>
-          <small class="text-muted">{{
-            user.email || "guest@example.com"
-          }}</small>
-        </div>
-      </div>
-      <button class="btn-close" (click)="closeMobileMenu()"></button>
-    </div>
-
-    <div class="menuItemsDiv">
-      <ul class="nav flex-column p-2">
-        <li class="nav-item my-1" *ngFor="let item of menuItems">
-          <a
-            class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-            [routerLink]="item.menuPath"
-            routerLinkActive="active bg-primary text-white"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMobileMenu()"
-          >
-            <i class="bi bi-{{ item.menuIcon || 'circle' }} me-3"></i>
-            <span>{{ item.menuName }}</span>
-          </a>
-        </li>
-
-        <span *ngIf="masterItems.length" class="text-center">
-          <hr />
-          <span class="fw-bolder">Master Data</span>
-          <hr />
-        </span>
-
-        <li class="nav-item my-1" *ngFor="let item of masterItems">
-          <a
-            class="nav-link d-flex align-items-center py-2 px-3 rounded text-dark text-decoration-none"
-            [routerLink]="item.menuPath"
-            routerLinkActive="active bg-primary text-white"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMobileMenu()"
-          >
-            <i class="bi bi-{{ item.menuIcon || 'circle' }} me-3"></i>
-            <span>{{ item.menuName }}</span>
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
 </div>

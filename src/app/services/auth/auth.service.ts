@@ -5,9 +5,9 @@ import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface IUser {
-  name?: string;
-  email?: string;
-  profileImage?: string;
+  USM_Name?: string;
+  USM_Email?: string;
+  USM_ProfileImage?: string;
 }
 
 @Injectable({

@@ -123,4 +123,10 @@ export class MenuService {
     }
     return throwError(() => new Error(errorMessage));
   }
+
+  checkMenuNameExists(menuName: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/checkNameExits/${menuName}`, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 }
